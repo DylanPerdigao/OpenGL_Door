@@ -8,12 +8,12 @@
 
 #ifndef floor_h
 #define floor_h
-void drawFloor(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height,GLfloat depth){
+void drawFloor(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height,GLfloat depth, GLint texture){
 
     glPushMatrix();
     glTranslatef(x,y,z);
     glScalef(width, height,depth);
-    drawCube(1,DARK_GREEN);
+    drawCube(1,texture,width,height,depth,DARK_GREEN);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 }

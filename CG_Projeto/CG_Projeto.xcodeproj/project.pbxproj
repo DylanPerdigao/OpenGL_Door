@@ -9,8 +9,18 @@
 /* Begin PBXBuildFile section */
 		91AC6260255EB1DB00235C52 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91E598DA2542F4EE00529BF6 /* GLUT.framework */; };
 		91AC6261255EB1E900235C52 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91E598DC2542F4F400529BF6 /* OpenGL.framework */; };
-		91AC6274255EB65600235C52 /* grass.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C7C6A925571F7200414FD2 /* grass.bmp */; };
 		91C7C6A42557197D00414FD2 /* RgbImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91C7C6A32557197D00414FD2 /* RgbImage.cpp */; };
+		91D167C3255F53380041D674 /* cobblestone.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C7C6A825571F7200414FD2 /* cobblestone.bmp */; };
+		91D167C7255F533D0041D674 /* sky.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C7C6AA25571F7200414FD2 /* sky.bmp */; };
+		91D167D72560CBDE0041D674 /* dark_oak.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167D42560CB2E0041D674 /* dark_oak.bmp */; };
+		91D167D92560CBE10041D674 /* stone.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167D52560CB2E0041D674 /* stone.bmp */; };
+		91D167DE2560D2250041D674 /* dark_oak_log.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167DD2560D1A20041D674 /* dark_oak_log.bmp */; };
+		91D167E12560D3200041D674 /* grass.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167E02560D3180041D674 /* grass.bmp */; };
+		91D167E42560E44D0041D674 /* terracotta.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167E32560E4420041D674 /* terracotta.bmp */; };
+		91D167EA2560E93F0041D674 /* door.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167E62560E9320041D674 /* door.bmp */; };
+		91D167EC2560E9430041D674 /* bricks.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167E82560E9320041D674 /* bricks.bmp */; };
+		91D167EE2560E9470041D674 /* slider.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167E92560E9320041D674 /* slider.bmp */; };
+		91D167F52560E9860041D674 /* glass.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91D167F42560E97F0041D674 /* glass.bmp */; };
 		91E598D22542F4E100529BF6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91E598D12542F4E100529BF6 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -21,7 +31,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				91AC6274255EB65600235C52 /* grass.bmp in CopyFiles */,
+				91D167F52560E9860041D674 /* glass.bmp in CopyFiles */,
+				91D167EE2560E9470041D674 /* slider.bmp in CopyFiles */,
+				91D167EC2560E9430041D674 /* bricks.bmp in CopyFiles */,
+				91D167EA2560E93F0041D674 /* door.bmp in CopyFiles */,
+				91D167E42560E44D0041D674 /* terracotta.bmp in CopyFiles */,
+				91D167E12560D3200041D674 /* grass.bmp in CopyFiles */,
+				91D167DE2560D2250041D674 /* dark_oak_log.bmp in CopyFiles */,
+				91D167D92560CBE10041D674 /* stone.bmp in CopyFiles */,
+				91D167D72560CBDE0041D674 /* dark_oak.bmp in CopyFiles */,
+				91D167C7255F533D0041D674 /* sky.bmp in CopyFiles */,
+				91D167C3255F53380041D674 /* cobblestone.bmp in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +61,16 @@
 		91C7C6A32557197D00414FD2 /* RgbImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RgbImage.cpp; sourceTree = "<group>"; };
 		91C7C6A625571E0700414FD2 /* textures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = textures.h; sourceTree = "<group>"; };
 		91C7C6A825571F7200414FD2 /* cobblestone.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = cobblestone.bmp; sourceTree = "<group>"; };
-		91C7C6A925571F7200414FD2 /* grass.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = grass.bmp; sourceTree = "<group>"; };
 		91C7C6AA25571F7200414FD2 /* sky.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = sky.bmp; sourceTree = "<group>"; };
+		91D167D42560CB2E0041D674 /* dark_oak.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = dark_oak.bmp; sourceTree = "<group>"; };
+		91D167D52560CB2E0041D674 /* stone.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = stone.bmp; sourceTree = "<group>"; };
+		91D167DD2560D1A20041D674 /* dark_oak_log.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = dark_oak_log.bmp; sourceTree = "<group>"; };
+		91D167E02560D3180041D674 /* grass.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = grass.bmp; sourceTree = "<group>"; };
+		91D167E32560E4420041D674 /* terracotta.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = terracotta.bmp; sourceTree = "<group>"; };
+		91D167E62560E9320041D674 /* door.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = door.bmp; sourceTree = "<group>"; };
+		91D167E82560E9320041D674 /* bricks.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = bricks.bmp; sourceTree = "<group>"; };
+		91D167E92560E9320041D674 /* slider.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = slider.bmp; sourceTree = "<group>"; };
+		91D167F42560E97F0041D674 /* glass.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = glass.bmp; sourceTree = "<group>"; };
 		91E598CE2542F4E100529BF6 /* CG_Projeto */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CG_Projeto; sourceTree = BUILT_PRODUCTS_DIR; };
 		91E598D12542F4E100529BF6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		91E598DA2542F4EE00529BF6 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -65,9 +93,17 @@
 		91C7C6A725571E9000414FD2 /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				91D167E82560E9320041D674 /* bricks.bmp */,
+				91D167E62560E9320041D674 /* door.bmp */,
+				91D167E92560E9320041D674 /* slider.bmp */,
+				91D167E02560D3180041D674 /* grass.bmp */,
+				91D167E32560E4420041D674 /* terracotta.bmp */,
 				91C7C6A825571F7200414FD2 /* cobblestone.bmp */,
-				91C7C6A925571F7200414FD2 /* grass.bmp */,
+				91D167DD2560D1A20041D674 /* dark_oak_log.bmp */,
+				91D167F42560E97F0041D674 /* glass.bmp */,
 				91C7C6AA25571F7200414FD2 /* sky.bmp */,
+				91D167D42560CB2E0041D674 /* dark_oak.bmp */,
+				91D167D52560CB2E0041D674 /* stone.bmp */,
 			);
 			path = textures;
 			sourceTree = "<group>";
@@ -299,11 +335,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = textures;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8GMP7BXV45;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -314,11 +350,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = textures;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 8GMP7BXV45;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INSTALL_PATH = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};

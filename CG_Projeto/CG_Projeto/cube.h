@@ -8,7 +8,7 @@
 #ifndef cube_h
 #define cube_h
 
-void drawCube(GLfloat size, GLdouble r,GLdouble g,GLdouble b, GLdouble a){
+void drawCube(GLfloat size,GLuint texture,GLfloat scaleX,GLfloat scaleY,GLfloat scaleZ,GLdouble r,GLdouble g,GLdouble b, GLdouble a){
     ///vertices
     GLfloat vertices[] = {
         //left
@@ -44,36 +44,68 @@ void drawCube(GLfloat size, GLdouble r,GLdouble g,GLdouble b, GLdouble a){
     };
     ///vetores normais
     GLfloat normals[] = {
-        //left
+        ///left
         -1.0,  0.0,  0.0,
         -1.0,  0.0,  0.0,
         -1.0,  0.0,  0.0,
         -1.0,  0.0,  0.0,
-        //right
+        ///right
         1.0,  0.0,  0.0,
         1.0,  0.0,  0.0,
         1.0,  0.0,  0.0,
         1.0,  0.0,  0.0,
-        //up
+        ///up
         0.0,  1.0,  0.0,
         0.0,  1.0,  0.0,
         0.0,  1.0,  0.0,
         0.0,  1.0,  0.0,
-        //down
+        ///down
         0.0,  -1.0,  0.0,
         0.0,  -1.0,  0.0,
         0.0,  -1.0,  0.0,
         0.0,  -1.0,  0.0,
-        //front
+        ///front
         0.0,  0.0,  -1.0,
         0.0,  0.0,  -1.0,
         0.0,  0.0,  -1.0,
         0.0,  0.0,  -1.0,
-        //back
+        ///back
         0.0,  0.0,  1.0,
         0.0,  0.0,  1.0,
         0.0,  0.0,  1.0,
         0.0,  0.0,  1.0,
+    };
+    GLfloat textures[] = {
+        ///left
+        0,          0,          //0
+        0,          scaleY,     //1
+        scaleZ,     scaleY,     //2
+        scaleZ,     0,          //4
+        ///right
+        scaleZ,     0,          //5
+        scaleZ,     scaleY,     //6
+        0,          scaleY,     //7
+        0,          0,          //8
+        ///up
+        0,          scaleZ,     //9
+        0,          0,          //10
+        scaleX,     0,          //11
+        scaleX,     scaleZ,     //12
+        ///down
+        0,          0,          //13
+        0,          scaleZ,     //14
+        scaleX,     scaleZ,     //15
+        scaleX,     0,          //16
+        ///front
+        0,          scaleY,     //17
+        0,          0,          //18
+        scaleX,     0,          //19
+        scaleX,     scaleY,     //20
+        ///back
+        0,          scaleY,     //21
+        0,          0,          //22
+        scaleX,     0,          //23
+        scaleX,     scaleY,     //24
     };
     ///faces visiveis
     GLuint     left[] = {0, 1, 2, 3};
@@ -87,22 +119,18 @@ void drawCube(GLfloat size, GLdouble r,GLdouble g,GLdouble b, GLdouble a){
     glEnableClientState(GL_VERTEX_ARRAY);
     glNormalPointer(GL_FLOAT, 0, normals);
     glEnableClientState(GL_NORMAL_ARRAY);
+    glTexCoordPointer(2, GL_FLOAT, 0, textures);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     ///desenho
     glEnable(GL_TEXTURE_2D);
-   
+    glColor4f(r,g,b,a);
+    glBindTexture(GL_TEXTURE_2D, texture);
     glPushMatrix();
-        glColor4f(r,g,b,a);
-        glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, up);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, down);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, left);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, right);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, front);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
         glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, back);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);

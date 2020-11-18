@@ -16,7 +16,7 @@ void drawText(char* string, GLfloat x, GLfloat y){
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *string++);
     glPopMatrix();
 }
-void drawInformation(){
+void drawInformation(GLfloat x, GLfloat y){
     char text[30];
     switch (projectionType) {
         case ORTHOGONAL:
@@ -26,7 +26,7 @@ void drawInformation(){
             snprintf(text, 30, "Perspective Projection");
             break;
     }
-    drawText(text, -15, -15);
+    drawText(text, x,y);
 }
 void drawCommands(int x,int y,int ySpace){
     char text[30];

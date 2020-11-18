@@ -15,13 +15,13 @@
 GLint msec = 10;
 ///observador
 GLfloat maxY = 50.0;
-GLfloat distance = 20;
+GLfloat distance = 10;
 GLfloat theta = acos(-1)/2;
 GLfloat  obsP[] = { distance * cos(theta), 3.0, distance * sin(theta) };
 GLfloat  obsT[] = { obsP[0] - distance * cos(theta), obsP[1], obsP[2] - distance * sin(theta) };
 float angleZ = 95;
 int projectionType = 0;
-int zoom=2;
+int zoom=1;
 ///porta
 GLfloat maxDoorShift=16;
 GLfloat maxWindowShift=1;

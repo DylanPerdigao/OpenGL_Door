@@ -12,49 +12,49 @@ void drawDoor(GLfloat mainDoorPosX,GLfloat secDoorAngle,GLfloat windowPosY){
     glTranslatef(-8+mainDoorPosX, 0, 0);
         //porta
         glPushMatrix();
-            glTranslatef(6, 0, 0);
+            glTranslatef(6, 0, 0.75);
             glRotatef(secDoorAngle, 0, 1, 0);
-            glScalef(4, 7, 1);
-            drawCube(1,GREEN);
+            glScalef(4, 7, 0.25);
+            drawCube(1,texture[5],4,7,0.25,GREEN);
         glPopMatrix();
         //janela
         glPushMatrix();
             glTranslatef(3, 8+windowPosY, 0.5);
-            glScalef(10, 1, 0);
-            drawCube(1,BLUE);
+            glScalef(10, 1, 0.1);
+            drawCube(1,texture[6],10,1,0.1,BLUE);
         glPopMatrix();
         //cima
         glPushMatrix();
             glTranslatef(3, 9, 0);
             glScalef(10, 1, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],10,1,1,WHITE);
         glPopMatrix();
         //entre janela e porta
         glPushMatrix();
             glTranslatef(6, 7, 0);
             glScalef(4, 1, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],4,1,1,WHITE);
         glPopMatrix();
         //esquerda
         glPushMatrix();
             glScalef(6, 8, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],6,8,1,WHITE);
         glPopMatrix();
         glPushMatrix();
             glTranslatef(0, 8, 0);
             glScalef(3, 2, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],3,2,1,WHITE);
         glPopMatrix();
         //direita
         glPushMatrix();
             glTranslatef(13, 8, 0);
             glScalef(3, 2, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],3,2,1,WHITE);
         glPopMatrix();
         glPushMatrix();
             glTranslatef(10, 0, 0);
             glScalef(6, 8, 1);
-            drawCube(1,WHITE);
+            drawCube(1,texture[3],6,8,1,WHITE);
         glPopMatrix();
     glPopMatrix();
 }

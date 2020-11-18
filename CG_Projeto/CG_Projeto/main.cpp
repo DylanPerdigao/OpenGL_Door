@@ -1,4 +1,12 @@
-#include <GLUT/glut.h>
+#ifdef __APPLE__
+#define GL_SILENCE_DEPRECATION
+    #include <OpenGL/gl.h>
+    #include <GLUT/glut.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glut.h>
+#endif
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,20 +26,19 @@
 #include "textures.h"
 
 ///janela
-GLint wScreen = 600;
-GLint hScreen = 600;
+GLint wScreen = 800;
+GLint hScreen = 800;
 
 
 void drawScene() {
     glPushMatrix();
     glScalef((GLfloat)1/zoom,(GLfloat)1/zoom,(GLfloat)1/zoom);
-    drawFloor(-100,0,-100,92,0,200);
-    drawFloor(-8,0,-100,16,0,200);
-    drawFloor(8,0,-100,92,0,200);
-
-
+    drawFloor(-100,-100,-100,92,100,200,texture[1]);
+    drawFloor(-8,-100,-100,16,100,200,texture[2]);
+    drawFloor(8,-100,-100,92,100,200,texture[1]);
     drawWall();
     drawDoor(mainDoorPosX,secDoorAngle,windowPosY);
+    drawBola();
     glPopMatrix();
 }
 
@@ -40,7 +47,7 @@ void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //================================================================= Viewport 1 MAPA
     ///projecao ortogonal
-    glViewport(0, 0, 0.25 * wScreen, 0.25 * hScreen);
+    glViewport(0, 0, 0.2*wScreen, 0.2*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-20, 20, -20, 20, -100, 100);
@@ -48,23 +55,23 @@ void display(void) {
     glLoadIdentity();
     gluLookAt(0, 30, 0, 0, 0, 0, 0, 0, -1);
     ///Objetos
+    drawInformation(-15,-20);
     drawAxis();
     drawObservador_Local();
     drawObservador_Target();
     drawScene();
-    drawInformation();
     //================================================================= Viewport 2 COMANDOS
     ///projecao ortogonal
-    glViewport(0, 0.75*hScreen,0.25*wScreen, 1.2*hScreen);
+    glViewport(0*wScreen, 0.6*hScreen,0.2*wScreen, 0.3*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-20, 20, -20, 20, -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(0, 30, 0, 0, 0, 0, 0, 0, -1);
-    drawCommands(-15,-20,1);
+    drawCommands(-15,-20,3);
     //================================================================= Viewport 3
-    glViewport(0.5 * wScreen, 0.25 * hScreen, 0.75 * wScreen*2, 0.75 * hScreen*2);
+    glViewport(0.25 * wScreen, 0.25 * hScreen, 0.75 * wScreen, 0.75*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     switch (projectionType) {
@@ -91,7 +98,7 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(wScreen, hScreen);
-    glutInitWindowPosition(400, 100);
+    glutInitWindowPosition(300, 0);
     glutCreateWindow("Door Project\t-\tDylan Perdigão\t-\tdgp@student.dei.uc.pt");
     glClearColor(BLACK);                        //  Apagar
     glEnable(GL_DEPTH_TEST);                    //  Profundidade

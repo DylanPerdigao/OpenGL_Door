@@ -7,21 +7,24 @@
 
 #ifndef axis_h
 #define axis_h
-void drawAxis(){
+void drawAxis(float x, float y, float z){
     glColor4f(ORANGE);
-    glBegin(GL_LINES);
-        glVertex3i(0, 0, 0);
-        glVertex3i(10, 0, 0);
-    glEnd();
-    glColor4f(GREEN);
-    glBegin(GL_LINES);
-        glVertex3i(0, 0, 0);
-        glVertex3i(0, 10, 0);
-    glEnd();
-    glColor4f(CYAN);
-    glBegin(GL_LINES);
-        glVertex3i(0, 0, 0);
-        glVertex3i(0, 0, 10);
-    glEnd();
+    glPushMatrix();
+    glTranslatef(x, y, z);
+        glBegin(GL_LINES);
+            glVertex3i(0, 0, 0);
+            glVertex3i(10, 0, 0);
+        glEnd();
+        glColor4f(GREEN);
+        glBegin(GL_LINES);
+            glVertex3i(0, 0, 0);
+            glVertex3i(0, 10, 0);
+        glEnd();
+        glColor4f(CYAN);
+        glBegin(GL_LINES);
+            glVertex3i(0, 0, 0);
+            glVertex3i(0, 0, 10);
+        glEnd();
+    glPopMatrix();
 }
 #endif /* axis_h */

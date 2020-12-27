@@ -9,11 +9,11 @@
 
 #ifndef textures_h
 #define textures_h
-GLUquadricObj* bola = gluNewQuadric();
-GLuint   texture[8];
+GLuint   texture[11];
 RgbImage imag;
 void initTextures(){
-    char* textureNameList[8];
+    size_t n = sizeof(texture)/sizeof(texture[0]);
+    char* textureNameList[n];
     textureNameList[0]=strdup("sky.bmp");
     textureNameList[1]=strdup("grass.bmp");
     textureNameList[2]=strdup("stone.bmp");
@@ -22,11 +22,14 @@ void initTextures(){
     textureNameList[5]=strdup("terracotta.bmp");
     textureNameList[6]=strdup("glass.bmp");
     textureNameList[7]=strdup("slider.bmp");
-    for(int i=0;i<8;i++){
+    textureNameList[8]=strdup("torch.bmp");
+    textureNameList[9]=strdup("torch_off.bmp");
+    textureNameList[10]=strdup("night.bmp");
+    for(int i=0;i<n;i++){
         glGenTextures(1, &texture[i]);
         glBindTexture(GL_TEXTURE_2D, texture[i]);
         imag.LoadBmpFile(textureNameList[i]);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -34,21 +37,5 @@ void initTextures(){
         glTexImage2D(GL_TEXTURE_2D, 0, 3,imag.GetNumCols(),imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,imag.ImageData());
         
     }
-}
-void drawBola()
-{
-    //------------------------- Bola
-    glCullFace(GL_FRONT);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
-    glPushMatrix();
-        glTranslatef(2, 4, 2);
-        gluQuadricDrawStyle(bola, GLU_FILL);
-        gluQuadricNormals(bola, GLU_SMOOTH);
-        gluQuadricTexture(bola, GL_TRUE);
-        gluSphere(bola, 100.0, 100, 100);
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-    glCullFace(GL_BACK);                    
 }
 #endif /* textures_h */

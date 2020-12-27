@@ -1,0 +1,17 @@
+//uniform lightX;
+//uniform lightY;
+//vec4 position = vec4(lightX,lightY,0,1)
+vec3  direcaoL= vec3( 1,0,1);
+float intensity;
+vec3  nNormal;
+
+void main(void) {
+    direcaoL  = normalize (direcaoL);    // caso o vetor de iluminacao nao seja normalizado
+    nNormal   = normalize( gl_Normal);
+        intensity = dot( direcaoL, nNormal);
+        intensity = max ( intensity, 0.0);
+
+        gl_FrontColor   = intensity*gl_Color ;
+        gl_Position     = gl_ModelViewProjectionMatrix * gl_Vertex;
+}
+

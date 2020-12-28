@@ -13,16 +13,18 @@
 #include "cube.h"
 #include "reader.h"
 
-#define STEP 0.5
+#define STEP    0.5
+#define PI      3.14159
 //.................................................... Variaveis
 GLint wScreen = 600;
 GLint hScreen = 500;
 
-GLfloat lightX=0;
-GLfloat lightY=0;
+GLfloat lightPos[3] = {0,1,0};
+GLfloat  rVisao = 8, aVisao = PI/2, incVisao = 0.05;
+GLfloat  obsP[] = { rVisao * cos(aVisao), 3.0, rVisao * sin(aVisao) };
 
-char filenameV[] = "Vshader.cpp";
-char filenameF[] = "Fshader.cpp";
+char filenameV[] = "VertexShader.cpp"; 
+char filenameF[] = "FragmentShader.cpp";
 
 char* VertexShaderSource;
 char* FragmentShaderSource;
@@ -30,18 +32,19 @@ char* FragmentShaderSource;
 GLuint  VertexShader, FragmentShader;
 GLuint  ShaderProgram;
 
+GLuint uLoc_position;
+
 
 void drawScene(void){
-    drawAxis(0,0,0); 
+    
     glColor4f(YELLOW);
     glPushMatrix();
-        glTranslatef(lightX, lightY, 0);
-        drawCube(1);
+    glTranslatef(lightPos[0],lightPos[1],lightPos[2]);
+        drawCube(0.1);
     glPopMatrix();
     
-    glColor3f(1, 0.5, 0);
+    glColor4f(ORANGE);
     glPushMatrix();
-        glTranslatef(-1, -1, 0);
         glutSolidTeapot(1);
     glPopMatrix();
 }
@@ -57,11 +60,13 @@ void draw(void){
  
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+    gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
     
     drawScene();
-    
-    glutSwapBuffers();                        //.. actualiza ecran
+    //----------------------------------------------usa variaveis uniform
+    glUniform3fv(uLoc_position, 1, lightPos);
+  
+    glutSwapBuffers();
 }
 
 
@@ -75,27 +80,36 @@ void event(unsigned char key, int x, int y) {
         //W
         case 'W':
         case 'w':
-            lightY+=STEP;
+            lightPos[1]+=STEP;
             break;
         //A
         case 'A':
         case 'a':
-            lightX-=STEP;
+            lightPos[0]-=STEP;
             break;
         //S
         case 'S':
         case 's':
-            lightY-=STEP;
+            lightPos[1]-=STEP;
             break;
         //S
         case 'D':
         case 'd':
-            lightX+=STEP;
+            lightPos[0]+=STEP;
             break;
         }
+    glutPostRedisplay();
 }
 
-
+void eventArrows(int key, int x, int y) {
+    if (key == GLUT_KEY_UP)    obsP[1] = obsP[1] + 0.5;
+    if (key == GLUT_KEY_DOWN)  obsP[1] = obsP[1] - 0.5;
+    if (key == GLUT_KEY_LEFT)  aVisao = aVisao + 0.1;
+    if (key == GLUT_KEY_RIGHT) aVisao = aVisao - 0.1;
+    obsP[0] = rVisao * cos(aVisao);
+    obsP[2] = rVisao * sin(aVisao);
+    glutPostRedisplay();
+}
 
 int main(int argc, char** argv){
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,16 +118,14 @@ int main(int argc, char** argv){
     glutInitWindowSize(500, 500);
     glutInitWindowPosition(500, 40);
     glutCreateWindow("Dylan Perdigão | Projeto | Shaders");
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Init
     glClearColor(0, 0, 0, 1);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLEW
     glewInit();
-    glDetachShader(ShaderProgram, VertexShader);
-    glDetachShader(ShaderProgram, FragmentShader);
-    glDeleteShader(ShaderProgram);
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Criar, compilar, linkar, e usar
     GLEW_ARB_vertex_shader;
     GLEW_ARB_fragment_shader;
     //Criar
@@ -137,11 +149,21 @@ int main(int argc, char** argv){
     glLinkProgram(ShaderProgram);
     //Usar
     glUseProgramObjectARB(ShaderProgram);
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~UNIFORM
+    uLoc_position = glGetUniformLocation(ShaderProgram, "u_lightPos"); 
+    glUniform1fv(uLoc_position,1,lightPos);
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Libertar os Shaders
+    glDetachShader(ShaderProgram, VertexShader);
+    glDetachShader(ShaderProgram, FragmentShader);
+    glDeleteShader(ShaderProgram);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    glutSpecialFunc(eventArrows);
     glutDisplayFunc(draw);
     glutKeyboardFunc(event);
-    glutIdleFunc(draw);
+    glutIdleFunc(draw);    
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     glutMainLoop();
     return 1;
 }
+    
+   

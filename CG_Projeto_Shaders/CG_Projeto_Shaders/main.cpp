@@ -1,30 +1,35 @@
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <GL/glew.h>
 #include <GL/glut.h>
-#ifdef __APPLE__
+#ifdef __APPLE__ 
     #define GL_SILENCE_DEPRECATION
 #else
     #include <GL/gl.h>
-#endif
+#endif 
 #include "colors.h"
 #include "axis.h"
 #include "cube.h"
 #include "reader.h"
 
-#define STEP    0.5
-#define PI      3.14159
+#define STEP 0.1
 //.................................................... Variaveis
 GLint wScreen = 600;
 GLint hScreen = 500;
 
+//positions
 GLfloat lightPos[3] = {0,1,0};
-GLfloat  rVisao = 8, aVisao = PI/2, incVisao = 0.05;
-GLfloat  obsP[] = { rVisao * cos(aVisao), 3.0, rVisao * sin(aVisao) };
+GLfloat  obsP[3] = {0,2,5};
 
-char filenameV[] = "VertexShader.cpp"; 
-char filenameF[] = "FragmentShader.cpp";
+//light
+GLfloat isPhong = false;
+GLfloat a = 0.05;
+GLfloat s = 0.7;
+
+char filenameV[] = "VertexShader.glsl";
+char filenameF[] = "FragmentShader.glsl";
 
 char* VertexShaderSource;
 char* FragmentShaderSource;
@@ -33,10 +38,13 @@ GLuint  VertexShader, FragmentShader;
 GLuint  ShaderProgram;
 
 GLuint uLoc_position;
+GLuint uLoc_observer;
+GLuint uLoc_isPhong;
+GLuint uLoc_a;
+GLuint uLoc_s;
 
 
 void drawScene(void){
-    
     glColor4f(YELLOW);
     glPushMatrix();
     glTranslatef(lightPos[0],lightPos[1],lightPos[2]);
@@ -65,7 +73,10 @@ void draw(void){
     drawScene();
     //----------------------------------------------usa variaveis uniform
     glUniform3fv(uLoc_position, 1, lightPos);
-  
+    glUniform3fv(uLoc_observer, 1, obsP);
+    glUniform1f(uLoc_isPhong, isPhong);
+    glUniform1f(uLoc_a, a);
+    glUniform1f(uLoc_s, s);
     glutSwapBuffers();
 }
 
@@ -77,38 +88,44 @@ void event(unsigned char key, int x, int y) {
         case 27:
             exit(0);
             break;
-        //W
-        case 'W':
-        case 'w':
-            lightPos[1]+=STEP;
+        //SPACE
+        case 32:
+            isPhong? isPhong=0:isPhong=1;
+            std::cout << isPhong;
+            std::cout << "\n";
             break;
         //A
         case 'A':
         case 'a':
             lightPos[0]-=STEP;
             break;
+        //D
+        case 'D':
+        case 'd':
+            lightPos[0]+=STEP;
+            break;
+        //W
+        case 'W':
+        case 'w':
+            lightPos[1]+=STEP;
+            break;
         //S
         case 'S':
         case 's':
             lightPos[1]-=STEP;
             break;
-        //S
-        case 'D':
-        case 'd':
-            lightPos[0]+=STEP;
+        //Q
+        case 'Q':
+        case 'q':
+            lightPos[2]-=STEP;
             break;
-        }
-    glutPostRedisplay();
-}
-
-void eventArrows(int key, int x, int y) {
-    if (key == GLUT_KEY_UP)    obsP[1] = obsP[1] + 0.5;
-    if (key == GLUT_KEY_DOWN)  obsP[1] = obsP[1] - 0.5;
-    if (key == GLUT_KEY_LEFT)  aVisao = aVisao + 0.1;
-    if (key == GLUT_KEY_RIGHT) aVisao = aVisao - 0.1;
-    obsP[0] = rVisao * cos(aVisao);
-    obsP[2] = rVisao * sin(aVisao);
-    glutPostRedisplay();
+        //E
+        case 'E':
+        case 'e':
+            lightPos[2]+=STEP; 
+            break;
+    }
+    glutPostRedisplay(); 
 }
 
 int main(int argc, char** argv){
@@ -122,19 +139,19 @@ int main(int argc, char** argv){
     glClearColor(0, 0, 0, 1);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLEW
+    glEnable(GL_NORMALIZE); 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GLEW   
     glewInit();
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Criar, compilar, linkar, e usar
-    GLEW_ARB_vertex_shader;
+    GLEW_ARB_vertex_shader; 
     GLEW_ARB_fragment_shader;
     //Criar
     VertexShader = glCreateShader(GL_VERTEX_SHADER);
     FragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     VertexShaderSource = readShaderFile(filenameV);
     FragmentShaderSource = readShaderFile(filenameF);
-    const char* VS = VertexShaderSource;
-    const char* FS = FragmentShaderSource;
+    const char* VS = VertexShaderSource; 
+    const char* FS = FragmentShaderSource; 
     glShaderSource(VertexShader, 1, &VS, NULL);
     glShaderSource(FragmentShader, 1, &FS, NULL);
     free(VertexShaderSource);
@@ -143,24 +160,31 @@ int main(int argc, char** argv){
     glCompileShaderARB(VertexShader);
     glCompileShaderARB(FragmentShader);
     //Criar e Linkar
-    ShaderProgram = glCreateProgramObjectARB();
+    ShaderProgram = glCreateProgramObjectARB(); 
     glAttachShader(ShaderProgram, VertexShader);
-    glAttachShader(ShaderProgram, FragmentShader);
-    glLinkProgram(ShaderProgram);
+    glAttachShader(ShaderProgram, FragmentShader);  
+    glLinkProgram(ShaderProgram); 
     //Usar
     glUseProgramObjectARB(ShaderProgram);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~UNIFORM
     uLoc_position = glGetUniformLocation(ShaderProgram, "u_lightPos"); 
     glUniform1fv(uLoc_position,1,lightPos);
+    uLoc_observer = glGetUniformLocation(ShaderProgram, "u_obsPos");
+    glUniform1fv(uLoc_position,1,obsP);
+    uLoc_isPhong = glGetUniformLocation(ShaderProgram, "u_isPhong");
+    glUniform1f(uLoc_isPhong,isPhong);
+    uLoc_a = glGetUniformLocation(ShaderProgram, "u_a");
+    glUniform1f(uLoc_a,a);
+    uLoc_s = glGetUniformLocation(ShaderProgram, "u_s");
+    glUniform1f(uLoc_s,s);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Libertar os Shaders
     glDetachShader(ShaderProgram, VertexShader);
     glDetachShader(ShaderProgram, FragmentShader);
     glDeleteShader(ShaderProgram);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    glutSpecialFunc(eventArrows);
     glutDisplayFunc(draw);
     glutKeyboardFunc(event);
-    glutIdleFunc(draw);    
+    glutIdleFunc(draw);
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     glutMainLoop();
     return 1;

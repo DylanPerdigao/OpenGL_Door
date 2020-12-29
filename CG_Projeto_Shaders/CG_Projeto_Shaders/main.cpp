@@ -2,31 +2,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <GL/glew.h>
-#include <GL/glut.h>
 #ifdef __APPLE__ 
     #define GL_SILENCE_DEPRECATION
+    #include <GL/glew.h>
+    #include <GL/glut.h>
 #else
+    #include <GL/glew.h>
+    #include <GL/glut.h>
     #include <GL/gl.h>
 #endif 
 #include "colors.h"
-#include "axis.h"
 #include "cube.h"
 #include "reader.h"
 
 #define STEP 0.1
 //.................................................... Variaveis
-GLint wScreen = 600;
-GLint hScreen = 500;
+GLint wScreen = 700;
+GLint hScreen = 700;
 
 //positions
-GLfloat lightPos[3] = {0,1,0};
-GLfloat  obsP[3] = {0,2,5};
+GLfloat lightPos[3] = {0,1,1};
+GLfloat  obsP[3] = {0,2,4};
 
 //light
-GLfloat isPhong = false;
+GLfloat isPhong;
 GLfloat a = 0.05;
-GLfloat s = 0.7;
+GLfloat s = 2;
 
 char filenameV[] = "VertexShader.glsl";
 char filenameF[] = "FragmentShader.glsl";
@@ -48,35 +49,81 @@ void drawScene(void){
     glColor4f(YELLOW);
     glPushMatrix();
     glTranslatef(lightPos[0],lightPos[1],lightPos[2]);
-        drawCube(0.1);
+        drawCube(0.2);
     glPopMatrix();
-    
     glColor4f(ORANGE);
     glPushMatrix();
         glutSolidTeapot(1);
     glPopMatrix();
 }
-
+void drawText(char* string, GLfloat x, GLfloat y){
+    glPushMatrix();
+    glTranslatef(x, 0, y);
+    glRasterPos2f(0, 0);
+    while (*string)
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10, *string++);
+    glPopMatrix();
+}
+void drawCommands(int x,int y,int ySpace){
+    int line=0;
+    char text[100];
+    glColor4f(RED);
+    snprintf(text, 100, "COMMANDS");
+    drawText(text, x, y);line++;
+    //MOVES
+    glColor4f(GREEN);
+    snprintf(text, 100, "- AD..............Move light left/right");
+    drawText(text, x,y+line*ySpace);line++;
+    snprintf(text, 100, "- WS..............Move light up/down");
+    drawText(text, x,y+line*ySpace);line++;
+    snprintf(text, 100, "- QE..............Move light front/back");
+    drawText(text, x,y+line*ySpace);line++;
+}
 void draw(void){
-
+    float wViewPort = 0.5;
+    float hViewPort = 0.7;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, wScreen, hScreen);
-
+    //----------------------------------------------viewPort1
+    glViewport(0*wScreen, (1-hViewPort)*hScreen, wViewPort*wScreen, hViewPort*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(80, 1, 0.1, 10.0);
- 
+    gluPerspective(80, (float)(wScreen*wViewPort)/(hScreen*hViewPort), 0.1, 9999);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
-    
     drawScene();
-    //----------------------------------------------usa variaveis uniform
+    glUniform1f(uLoc_isPhong, true);
     glUniform3fv(uLoc_position, 1, lightPos);
     glUniform3fv(uLoc_observer, 1, obsP);
-    glUniform1f(uLoc_isPhong, isPhong);
     glUniform1f(uLoc_a, a);
     glUniform1f(uLoc_s, s);
+    //----------------------------------------------viewPort2
+    glViewport(0.5*wScreen, (1-hViewPort)*hScreen, wViewPort*wScreen, hViewPort*hScreen);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(80, (float)(wScreen*wViewPort)/(hScreen*hViewPort), 0.1, 9999);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
+    drawScene();
+    glUniform1f(uLoc_isPhong, false);
+    glUniform3fv(uLoc_position, 1, lightPos);
+    glUniform3fv(uLoc_observer, 1, obsP);
+    glUniform1f(uLoc_a, a);
+    glUniform1f(uLoc_s, s);
+    //----------------------------------------------viewPort3
+    glViewport(0*wScreen, 0*hScreen, 1*wScreen, (1-hViewPort)*hScreen);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-10, 10, -10, 10, -10, 10);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0, 1, 0, 0, 0, 0, 0, 0,-1);
+    drawCommands(-9, 0, 2);
+    glColor4f(ORANGE);
+    drawText("PHONG", -5.5, -9);
+    drawText("GOURAUD", 5, -9);
+    //----------------------------------------------
     glutSwapBuffers();
 }
 
@@ -132,8 +179,8 @@ int main(int argc, char** argv){
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(500, 500);
-    glutInitWindowPosition(500, 40);
+    glutInitWindowSize(wScreen, hScreen);
+    glutInitWindowPosition(300, 100);
     glutCreateWindow("Dylan Perdigão | Projeto | Shaders");
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Init
     glClearColor(0, 0, 0, 1);

@@ -1,13 +1,13 @@
 uniform float u_a;
 uniform float u_s;
-uniform float u_isPhong;
+uniform bool u_isPhong;
 uniform vec3 u_lightPos;
 uniform vec3 u_obsPos;
 
 varying vec3 N;
 
 void main(void) {
-    if(u_isPhong==1.0){
+    if(u_isPhong){
     ///PHONG
         // normalize vectors
         vec3 L = normalize(vec3(u_lightPos[0],-u_lightPos[2],u_lightPos[1]));

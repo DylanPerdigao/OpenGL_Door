@@ -7,8 +7,7 @@
 
 #ifndef reader_h
 #define reader_h
-char* readShaderFile(char* name);
-char* readShaderFile(char* name) {
+char* readShaderFile(char* name){
     char* DATA;
     long length = 0;
     FILE* fp = fopen(name, "r");

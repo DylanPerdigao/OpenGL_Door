@@ -84,6 +84,11 @@ void draw(void){
     float hViewPort = 0.7;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //----------------------------------------------viewPort1
+    glUniform1f(uLoc_isPhong, true);
+    glUniform3fv(uLoc_position, 1, lightPos);
+    glUniform3fv(uLoc_observer, 1, obsP);
+    glUniform1f(uLoc_a, a);
+    glUniform1f(uLoc_s, s);
     glViewport(0*wScreen, (1-hViewPort)*hScreen, wViewPort*wScreen, hViewPort*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -92,12 +97,13 @@ void draw(void){
     glLoadIdentity();
     gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
     drawScene();
-    glUniform1f(uLoc_isPhong, true);
+
+    //----------------------------------------------viewPort2
+    glUniform1f(uLoc_isPhong, false);
     glUniform3fv(uLoc_position, 1, lightPos);
     glUniform3fv(uLoc_observer, 1, obsP);
     glUniform1f(uLoc_a, a);
     glUniform1f(uLoc_s, s);
-    //----------------------------------------------viewPort2
     glViewport(0.5*wScreen, (1-hViewPort)*hScreen, wViewPort*wScreen, hViewPort*hScreen);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -106,11 +112,7 @@ void draw(void){
     glLoadIdentity();
     gluLookAt(obsP[0], obsP[1], obsP[2], 0, 0, 0, 0, 1, 0);
     drawScene();
-    glUniform1f(uLoc_isPhong, false);
-    glUniform3fv(uLoc_position, 1, lightPos);
-    glUniform3fv(uLoc_observer, 1, obsP);
-    glUniform1f(uLoc_a, a);
-    glUniform1f(uLoc_s, s);
+
     //----------------------------------------------viewPort3
     glViewport(0*wScreen, 0*hScreen, 1*wScreen, (1-hViewPort)*hScreen);
     glMatrixMode(GL_PROJECTION);

@@ -7,3 +7,5 @@ CG_Projeto/.DS_Store
 CG_Projeto_Shaders/CG_Projeto_Shaders/.DS_Store
 CG_Projeto_Shaders/.DS_Store
 .DS_Store
+*.xcscheme
+*.plist

@@ -1,12 +1,35 @@
+# Prerequisites
+*.d
 
-Icon?
-CG_Projeto/.DS_Store
-*.xcbkptlist
-*.pbxproj
-*.xcuserstate
-CG_Projeto_Shaders/CG_Projeto_Shaders/.DS_Store
-CG_Projeto_Shaders/.DS_Store
-.DS_Store
-*.xcscheme
-*.plist
-.DS_Store
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#other
+*.DS_Store
